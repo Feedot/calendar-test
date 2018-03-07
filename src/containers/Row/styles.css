@@ -1,0 +1,22 @@
+tr td.name{
+    width: 60px;
+    font-size: 20px;
+    border-color: #828282;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+tr td{
+
+    width: 30px;
+    height: 70px;
+
+}
+tr td.checkBox{
+    width: 60px;
+}
+tr td.checked {
+
+    background: gray;
+
+}
