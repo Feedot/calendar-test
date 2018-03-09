@@ -1,10 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CustomBox from "../../components/CustomBox"
+import FirstRow from '../../components/FirstRow'
 import "./styles.css";
 
 class Row extends Component {
-  handleDaysName = (index) =>{
+    constructor() {
+        super();
+        this.state = {
+            mouseOver: false
+        };
+    }
+
+    handleCheckDay = dayIndex => this.props.onHandleCheckDay(dayIndex);
+    handleDaysName = index => {
       switch (index) {
           case 0: return <td className={'name'}>{"MO"}</td> ; break;
           case 1: return <td className={'name'}>{"TU"}</td>; break
@@ -14,7 +23,7 @@ class Row extends Component {
           case 5: return <td className={'name'}>{"SA"}</td>; break;
           case 6 :return <td className={'name'}>{"SA"}</td>; break;
       }
-  }
+    }
   componentWillMount() {
     let { data , takeData } = this.props;
     if (!data.length) takeData();
@@ -23,26 +32,40 @@ class Row extends Component {
     let { data } = this.props
     return (
       <tbody>
-      {data.map((item,index) => {
+      {data.map((item,dayIndex) => {
         return(
-            <tr key={index}>
-                {this.handleDaysName(index)}
-                <td className={'checkBox'}></td>
-                {item.map( (status,i)=> <CustomBox key={i} status={status}/>)}
+            <tr key={dayIndex}>
+                {this.handleDaysName(dayIndex)}
+                <td onClick={()=>{this.handleCheckDay(dayIndex)}} className={'checkBox'}></td>
+                {item.map( (status,hourIndex)=> <CustomBox
+                    setState={this.setState.bind(this)}
+                    state={this.state}
+                    key={hourIndex}
+                    status={status}
+                    indexes = {{dayIndex,hourIndex}}
+                />)}
             </tr>
         )
       })}
+
       </tbody>
     );
   }
 }
 export default connect(
   state => ({
+      state:state,
     data: state.matrix
   }),
   dispatch => ({
     takeData: () => {
       dispatch({ type: "TAKE_DATA" });
+    },
+    onHandleClick:obj => {
+        dispatch({ type:"CHECK_HOUR",payload:obj })
+    },
+    onHandleCheckDay: index => {
+        dispatch({ type:"CHECK_DAY",payload:index })
     }
   })
 )(Row);
