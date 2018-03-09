@@ -1,12 +1,13 @@
-let data =  {mo:[],tu:[],we:[],th:[],fr:[],sa:[],su:[]};
-export default (array) =>{
+let keys = ["mo","tu","we","th","fr","sa","su"],
+    data =  {}
+export default array =>{
 
     let compileNewData = array.reduce((arr,day)=>{
 
-        if( day.length!==1 || !day.length ){
-            let counter = 0;
-            let correctDay = day.reduce((ar,obj,index)=>{
-                if(day[index+1] !== undefined && obj.bt >= counter){
+        if( day.length > 1 ){
+            let counter = 0,
+                correctDay = day.reduce((ar,obj,index)=>{
+                if( day[index+1] !== undefined && obj.bt >= counter){
                     if(obj.et+1 !== day[index+1].bt) ar.push(obj)
                     else {
                         obj.et = day[index+1].et;
@@ -26,19 +27,7 @@ export default (array) =>{
         return arr
     },[])
 
-    compileNewData.map((day,index)=>{
-
-        switch (index){
-            case 0: data.mo = day; break;
-            case 1: data.tu = day; break;
-            case 2: data.we = day; break;
-            case 3: data.th = day; break;
-            case 4: data.fr = day; break;
-            case 5: data.sa = day; break;
-            case 6: data.su = day; break;
-        }
-
-    })
+    compileNewData.map( (day,index)=> data[keys[index]] = day )
 
     return data;
 

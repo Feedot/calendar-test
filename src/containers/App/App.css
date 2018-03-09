@@ -1,0 +1,10 @@
+table{
+
+    margin: 0 auto;
+    border-color: white;
+
+
+}
+table tr * {
+    border-color: white;
+}

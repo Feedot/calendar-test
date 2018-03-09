@@ -32,11 +32,12 @@ class Row extends Component {
     let { data } = this.props
     return (
       <tbody>
+      <FirstRow/>
       {data.map((item,dayIndex) => {
         return(
             <tr key={dayIndex}>
                 {this.handleDaysName(dayIndex)}
-                <td onClick={()=>{this.handleCheckDay(dayIndex)}} className={'checkBox'}></td>
+                <td onClick={()=>{this.handleCheckDay(dayIndex)}} className='checkBox'></td>
                 {item.map( (status,hourIndex)=> <CustomBox
                     setState={this.setState.bind(this)}
                     state={this.state}

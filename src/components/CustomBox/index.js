@@ -7,11 +7,13 @@ class CustomBox extends Component {
         super();
         this.table = document.querySelector('table')
     }
-    handleOver = (indexes, event) => {
+    handleOver = event => {
+        let {indexes} = this.props;
         if (this.props.state.mouseOver) {this.handleClick(indexes)}
         event.preventDefault()
     }
-    handleDown = (indexes,event) => {
+    handleDown = event => {
+        let {indexes} = this.props;
         this.props.setState({ mouseOver: true });
         this.handleClick(indexes)
         event.target.onmouseup = () => this.handleClick(indexes)
@@ -22,18 +24,21 @@ class CustomBox extends Component {
         this.props.setState({ mouseOver: false });
         this.table.onmousemove = event => event.stopPropagation();
     }
-    handleClick = obj => this.props.onHandleClick(obj)
+    handleClick = () => {
+        let {indexes} = this.props;
+        this.props.onHandleClick(indexes)
+    }
     render(){
-        let {status,indexes} = this.props;
+        let {status} = this.props;
         if(status) return <td
-            onMouseDown={ event => this.handleDown(indexes,event)}
-            onMouseOver={ event => this.handleOver(indexes,event)}
-            onClick={() => this.handleClick(indexes)}
-            className={'checked'}/>
+            onMouseDown={this.handleDown}
+            onMouseOver={this.handleOver}
+            onClick={this.handleClick}
+            className='checked'/>
         else return <td
-            onMouseDown={ event => this.handleDown(indexes,event)}
-            onMouseOver={ event => this.handleOver(indexes,event) }
-            onClick={() => this.handleClick(indexes)}
+            onMouseDown={this.handleDown}
+            onMouseOver={this.handleOver }
+            onClick={this.handleClick}
         />
 
     }
@@ -44,6 +49,6 @@ class CustomBox extends Component {
 export default connect (
     state => ({}),
     dispatch => ({
-        onHandleClick:obj => {dispatch({ type:"CHECK_HOUR",payload:obj })}
+        onHandleClick:payload => dispatch({ type:"CHECK_HOUR", payload })
     })
 )(CustomBox);

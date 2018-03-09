@@ -1,6 +1,7 @@
 import CreateMatrix from "../../functions/createMatrix";
 import toDoSameRow from '../../functions/toDoSameRow'
 import trinspileBack from '../../functions/trinspileBack'
+import axios from 'axios'
 
 const initialState = {};
 export default (state = initialState, { type, payload }) => {
@@ -24,7 +25,7 @@ export default (state = initialState, { type, payload }) => {
           if(counter !== 24 ) day = toDoSameRow(matrix,true)
           else day = toDoSameRow (matrix,false)
           state.matrix[payload] = day;
-          break;
+      break;
 
       case "TRINSPILE_BACK":
            let array = state.matrix.reduce((row,item)=>{
@@ -40,11 +41,16 @@ export default (state = initialState, { type, payload }) => {
                       arr.push(arrayMinutes)
                   }
 
-              return arr },[])
+              return arr },[]),
 
-          let data = trinspileBack(arrayObj)
-            console.log(data)
-          break;
+               data = trinspileBack(arrayObj)
+
+      break;
+
+      case "CLEAR":
+          state.matrix = new Array(7).fill(true).reduce(arr => {
+              arr.push(new Array(24).fill(false).slice());
+              return arr; }, [])
   }
 
   return { ...state };

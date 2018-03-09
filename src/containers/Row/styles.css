@@ -1,7 +1,6 @@
 tr td.name{
     width: 60px;
     font-size: 20px;
-    border-color: #828282;
     text-align: center;
     text-transform: uppercase;
 }
@@ -10,6 +9,7 @@ tr td{
 
     width: 30px;
     height: 70px;
+    background: #ffe48d;
 
 }
 tr td.checkBox{
