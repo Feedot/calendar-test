@@ -1,10 +1,35 @@
-table{
+.App{
+    text-align: center;
+    font-family: "Arial Rounded MT Bold";
+    text-shadow: 1px 1px 2px black;
+}
+.App button.click,.App table tr th,tr td.name{
+    color: antiquewhite;
+    background: #a6ecde;
 
+    animation-name: changingColor;
+    animation-duration:1s;
+    animation-iteration-count: infinite;
+}
+.App button.click{
+    -webkit-appearance: none;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px black;
+    padding: 5px 20px;
+    margin: 20px;
+    cursor: pointer;
+}
+.App table{
     margin: 0 auto;
     border-color: white;
-
-
 }
-table tr * {
+.App table tr * {
     border-color: white;
+}
+@keyframes changingColor {
+    from { color: antiquewhite }
+    to { color: white }
 }

@@ -6,17 +6,22 @@ tr td.name{
 }
 
 tr td{
-
     width: 30px;
     height: 70px;
     background: #ffe48d;
-
+    cursor: pointer;
 }
 tr td.checkBox{
     width: 60px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
 }
+tr td.checkBox:active{
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+
 tr td.checked {
-
     background: gray;
-
 }

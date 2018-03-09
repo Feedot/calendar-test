@@ -10,9 +10,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1>SET SCHEDULE</h1>
         <Table />
         <button className="click" onClick={this.handleTrinspileBack}>Save Changes</button>
-        <button onClick={this.handleClear}>Clear</button>
+        <button className="click" onClick={this.handleClear}>Clear</button>
       </div>
     );
   }
@@ -21,11 +22,7 @@ class App extends Component {
 export default connect (
     state=>({}),
     dispatch=>({
-      onHandleTrinspileBack: () => {
-          dispatch({ type:"TRINSPILE_BACK" })
-      },
-      onHandleClear: ()=>{
-          dispatch({ type:"CLEAR"})
-      }
+      onHandleTrinspileBack: () => dispatch({ type:"TRINSPILE_BACK" }),
+      onHandleClear: () => dispatch({ type:"CLEAR"})
     }))
 (App);

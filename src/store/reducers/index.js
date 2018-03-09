@@ -12,27 +12,22 @@ export default (state = initialState, { type, payload }) => {
       case "CHECK_HOUR":
 
         let {dayIndex,hourIndex} = payload
-
-        state.matrix.map( (day,index) => {
-            if (dayIndex === index) day[hourIndex] =!day[hourIndex]
-            return day
-        })
+        state.matrix.map( (day,index) => { (dayIndex === index) && (day[hourIndex] =!day[hourIndex]); return day})
         break;
       case "CHECK_DAY":
           let matrix = state.matrix[payload],
-              counter = matrix.reduce((sum,status)=>{ if (status) sum++; return sum },0),
+              counter = matrix.reduce((sum,status)=>{ status && sum++; return sum },0),
               day;
-          if(counter !== 24 ) day = toDoSameRow(matrix,true)
-          else day = toDoSameRow (matrix,false)
+          counter !== 24 ? day = toDoSameRow(matrix,true) : day = toDoSameRow (matrix,false)
           state.matrix[payload] = day;
       break;
 
       case "TRINSPILE_BACK":
            let array = state.matrix.reduce((row,item)=>{
 
-                let indexes = item.reduce( (arr,hour,hourIndex) => { if (hour) arr.push(hourIndex); return arr},[]);
-                row.push(indexes); return row },[]),
+                let indexes = item.reduce( (arr,hour,hourIndex) => { hour && arr.push(hourIndex); return arr},[]);
 
+                row.push(indexes); return row },[]),
               arrayObj = array.reduce((arr,item)=>{
                   if(item.length === 24)arr.push ([{bt:0,et:1439}])
                   else {
@@ -40,11 +35,12 @@ export default (state = initialState, { type, payload }) => {
                       ar.push ({bt:hour*60,et:hour*60+59}); return ar }, [])
                       arr.push(arrayMinutes)
                   }
-
-              return arr },[]),
-
+          return arr },[]),
                data = trinspileBack(arrayObj)
-
+                console.log(data)
+          // axios
+          //     .post('SOME_URL', JSON.stringify(data))
+          //     .then(response=>console.log(response.status))
       break;
 
       case "CLEAR":
@@ -52,6 +48,5 @@ export default (state = initialState, { type, payload }) => {
               arr.push(new Array(24).fill(false).slice());
               return arr; }, [])
   }
-
   return { ...state };
 };

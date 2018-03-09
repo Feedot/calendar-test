@@ -5,18 +5,19 @@ import { connect } from 'react-redux'
 class CustomBox extends Component {
     constructor() {
         super();
+        this.state = {
+            mouseOver: false
+        };
         this.table = document.querySelector('table')
     }
-    handleOver = event => {
+    onMouseOver = event => {
         let {indexes} = this.props;
-        if (this.props.state.mouseOver) {this.handleClick(indexes)}
-        event.preventDefault()
+        if (this.props.state.mouseOver) {this.onClick(indexes)}
     }
-    handleDown = event => {
-        let {indexes} = this.props;
+    onMouseDown = event => {
+        let {indexes} = this.props
         this.props.setState({ mouseOver: true });
-        this.handleClick(indexes)
-        event.target.onmouseup = () => this.handleClick(indexes)
+        this.onClick(indexes)
         this.table.onmouseup = event => this.handleUp(event);
         event.stopPropagation();
     }
@@ -24,31 +25,13 @@ class CustomBox extends Component {
         this.props.setState({ mouseOver: false });
         this.table.onmousemove = event => event.stopPropagation();
     }
-    handleClick = () => {
-        let {indexes} = this.props;
-        this.props.onHandleClick(indexes)
-    }
+    onClick = payload => this.props.onHandleClick(payload)
     render(){
-        let {status} = this.props;
-        if(status) return <td
-            onMouseDown={this.handleDown}
-            onMouseOver={this.handleOver}
-            onClick={this.handleClick}
-            className='checked'/>
-        else return <td
-            onMouseDown={this.handleDown}
-            onMouseOver={this.handleOver }
-            onClick={this.handleClick}
-        />
-
+        let {onMouseDown,onMouseOver,onClick} = this;
+        return <td {...{onMouseDown,onMouseOver,onClick}} className={ this.props.status ? 'checked' : null}/>
     }
-
-
-
 }
 export default connect (
     state => ({}),
-    dispatch => ({
-        onHandleClick:payload => dispatch({ type:"CHECK_HOUR", payload })
-    })
+    dispatch => ({ onHandleClick: payload => dispatch({ type:"CHECK_HOUR", payload }) })
 )(CustomBox);

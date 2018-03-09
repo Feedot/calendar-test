@@ -7,44 +7,27 @@ import "./styles.css";
 class Row extends Component {
     constructor() {
         super();
-        this.state = {
-            mouseOver: false
-        };
+        this.state = { mouseOver: false }
     }
-
     handleCheckDay = dayIndex => this.props.onHandleCheckDay(dayIndex);
-    handleDaysName = index => {
-      switch (index) {
-          case 0: return <td className={'name'}>{"MO"}</td> ; break;
-          case 1: return <td className={'name'}>{"TU"}</td>; break
-          case 2: return <td className={'name'}>{"WE"}</td>; break;
-          case 3: return <td className={'name'}>{"TH"}</td>;break;
-          case 4: return <td className={'name'}>{"FR"}</td>; break;
-          case 5: return <td className={'name'}>{"SA"}</td>; break;
-          case 6 :return <td className={'name'}>{"SA"}</td>; break;
-      }
-    }
+    handleDaysName = (index,days) => <td className={'name'}>{days[index]}</td>
   componentWillMount() {
     let { data , takeData } = this.props;
-    if (!data.length) takeData();
+    if ( !data.length ) takeData();
   }
   render() {
-    let { data } = this.props
+    let { data } = this.props, {setState , state } = this,
+         days =  ["MO","TU","WE","TH","FR","SA","SU"];
+        setState = setState.bind(this)
     return (
       <tbody>
       <FirstRow/>
       {data.map((item,dayIndex) => {
         return(
             <tr key={dayIndex}>
-                {this.handleDaysName(dayIndex)}
-                <td onClick={()=>{this.handleCheckDay(dayIndex)}} className='checkBox'></td>
-                {item.map( (status,hourIndex)=> <CustomBox
-                    setState={this.setState.bind(this)}
-                    state={this.state}
-                    key={hourIndex}
-                    status={status}
-                    indexes = {{dayIndex,hourIndex}}
-                />)}
+                {this.handleDaysName(dayIndex,days)}
+                <td onClick={()=>{this.handleCheckDay(dayIndex)}} className='checkBox'>Check</td>
+                {item.map((status,hourIndex) => <CustomBox {...{setState,state,status,key:hourIndex,indexes:{dayIndex,hourIndex}}}/>)}
             </tr>
         )
       })}
@@ -59,14 +42,7 @@ export default connect(
     data: state.matrix
   }),
   dispatch => ({
-    takeData: () => {
-      dispatch({ type: "TAKE_DATA" });
-    },
-    onHandleClick:obj => {
-        dispatch({ type:"CHECK_HOUR",payload:obj })
-    },
-    onHandleCheckDay: index => {
-        dispatch({ type:"CHECK_DAY",payload:index })
-    }
+    takeData: () => dispatch({ type: "TAKE_DATA" }),
+    onHandleCheckDay: index => dispatch({ type:"CHECK_DAY",payload:index })
   })
 )(Row);
