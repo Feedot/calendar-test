@@ -1,19 +1,11 @@
 import React from "react";
-
-let Сomponent = () => {
-    return (
+const content = ["","ALL DAY","00","03","06","09",12,15,18,21],
+    Сomponent = () =>
         <tr className="time">
-            <th className="first"></th>
-            <th className="first">ALL DAY</th>
-            <th colSpan="3">00:00</th>
-            <th colSpan="3">03:00</th>
-            <th colSpan="3">06:00</th>
-            <th colSpan="3">09:00</th>
-            <th colSpan="3">12:00</th>
-            <th colSpan="3">15:00</th>
-            <th colSpan="3">18:00</th>
-            <th colSpan="3">21:00</th>
+            {content.map((item,index)=> <th
+            className={(index>1) ? null: 'first'}
+            colSpan={(index>1) ? 3 : null}
+            >{(index>1)?`${content[index]}:00`:content[index]}</th>)}
         </tr>
-    );
-}
+
 export default Сomponent;

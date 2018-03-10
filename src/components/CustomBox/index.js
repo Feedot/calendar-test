@@ -5,9 +5,6 @@ import { connect } from 'react-redux'
 class CustomBox extends Component {
     constructor() {
         super();
-        this.state = {
-            mouseOver: false
-        };
         this.table = document.querySelector('table')
     }
     onMouseOver = event => {
